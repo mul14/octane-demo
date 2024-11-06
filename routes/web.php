@@ -15,3 +15,12 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::get('octane_check', function () {
+    return [
+        'octane' => ! empty($_SERVER['LARAVEL_OCTANE']),
+        'swoole' => (extension_loaded('swoole') || extension_loaded('openswoole')) && app()->bound(\Swoole\Http\Server::class),
+        'roadrunner' => ! empty($_SERVER['RR_VERSION']),
+        'frankenphp' => ! empty($_SERVER['SERVER_SOFTWARE']) && $_SERVER['SERVER_SOFTWARE'] == 'FrankenPHP',
+    ];
+});
